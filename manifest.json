@@ -1,0 +1,13 @@
+{
+  "name": "¡Hablemos! Spanish Study Journal",
+  "short_name": "¡Hablemos!",
+  "description": "A gentle Spanish learning space for everyday conversation and gospel teaching.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#faf8f1",
+  "theme_color": "#718675",
+  "icons": [
+    { "src": "./icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
