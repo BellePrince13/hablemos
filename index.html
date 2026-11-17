@@ -1,515 +1,111 @@
-
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#718675">
-  <title>¡Hablemos!</title>
+  <meta name="description" content="A gentle, personalized Spanish study space for everyday conversation and gospel teaching.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <title>¡Hablemos! — Your Spanish journal</title>
   <style>
-    :root {
-      --sage: #718675;
-      --sage-dark: #4e6656;
-      --sage-light: #e7eee7;
-      --cream: #faf8f1;
-      --paper: #fffefb;
-      --ink: #39483d;
-      --muted: #788078;
-      --rose: #c58f91;
-      --line: #e7e5dc;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--cream);
-      color: var(--ink);
-      font-family: Georgia, "Times New Roman", serif;
-    }
-
-    button, input { font: inherit; }
-
-    .app {
-      max-width: 720px;
-      margin: auto;
-      padding: 24px 20px 55px;
-    }
-
-    header {
-      text-align: center;
-      padding: 20px 0 25px;
-    }
-
-    .leaf {
-      color: var(--sage);
-      font-size: 25px;
-      letter-spacing: 8px;
-    }
-
-    h1 {
-      font-size: 42px;
-      font-weight: normal;
-      letter-spacing: 1px;
-      margin: 8px 0 4px;
-      color: var(--sage-dark);
-    }
-
-    .subtitle {
-      font-size: 14px;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    nav {
-      display: flex;
-      gap: 8px;
-      margin: 8px 0 22px;
-    }
-
-    nav button {
-      flex: 1;
-      border: 1px solid var(--line);
-      background: var(--paper);
-      color: var(--sage-dark);
-      padding: 12px 5px;
-      border-radius: 14px;
-      font-size: 13px;
-      cursor: pointer;
-    }
-
-    nav button.active {
-      background: var(--sage);
-      color: white;
-      border-color: var(--sage);
-    }
-
-    .panel {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 23px;
-      margin-bottom: 17px;
-      box-shadow: 0 4px 18px #455b4810;
-    }
-
-    .eyebrow {
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      font: 11px Arial, sans-serif;
-      color: var(--sage);
-      margin-bottom: 9px;
-    }
-
-    h2 {
-      font-weight: normal;
-      font-size: 25px;
-      margin: 0 0 10px;
-      color: var(--sage-dark);
-    }
-
-    h3 {
-      font-size: 19px;
-      font-weight: normal;
-      margin: 18px 0 7px;
-      color: var(--sage-dark);
-    }
-
-    p {
-      line-height: 1.65;
-      margin: 8px 0;
-    }
-
-    .muted { color: var(--muted); font-size: 14px; }
-
-    .duration-options {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 17px 0;
-    }
-
-    .duration-options button {
-      border: 1px solid #cbd6cb;
-      border-radius: 30px;
-      background: white;
-      color: var(--sage-dark);
-      padding: 10px 16px;
-      cursor: pointer;
-    }
-
-    .duration-options button.selected {
-      background: var(--sage);
-      color: white;
-      border-color: var(--sage);
-    }
-
-    .timer {
-      text-align: center;
-      font: 48px Arial, sans-serif;
-      letter-spacing: 2px;
-      color: var(--sage-dark);
-      padding: 15px 0 5px;
-    }
-
-    .timer-buttons {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin: 12px 0;
-    }
-
-    .primary, .secondary {
-      border: 0;
-      border-radius: 30px;
-      padding: 12px 22px;
-      cursor: pointer;
-    }
-
-    .primary {
-      background: var(--sage);
-      color: white;
-    }
-
-    .secondary {
-      background: var(--sage-light);
-      color: var(--sage-dark);
-    }
-
-    .lesson-step {
-      border-top: 1px solid var(--line);
-      padding: 13px 0;
-    }
-
-    .lesson-step strong {
-      color: var(--sage-dark);
-      font-weight: normal;
-      font-size: 17px;
-    }
-
-    .step-time {
-      float: right;
-      color: var(--sage);
-      font: 12px Arial, sans-serif;
-    }
-
-    .phrase {
-      background: var(--sage-light);
-      border-radius: 12px;
-      padding: 13px;
-      margin: 10px 0;
-      line-height: 1.6;
-    }
-
-    .phrase em { color: var(--sage-dark); }
-
-    .setting-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 15px;
-      margin: 17px 0;
-    }
-
-    input[type="time"] {
-      border: 1px solid #cbd6cb;
-      border-radius: 10px;
-      padding: 10px;
-      background: white;
-      color: var(--ink);
-    }
-
-    input[type="checkbox"] {
-      accent-color: var(--sage);
-      width: 20px;
-      height: 20px;
-    }
-
-    .status {
-      color: var(--sage-dark);
-      font-size: 13px;
-      margin-top: 12px;
-      min-height: 20px;
-    }
-
-    .hidden { display: none; }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      font-size: 13px;
-      font-style: italic;
-      padding: 18px 0;
-    }
-
-    @media (max-width: 420px) {
-      .app { padding: 15px 14px 40px; }
-      h1 { font-size: 36px; }
-      .panel { padding: 19px; }
-      nav button { font-size: 12px; }
-    }
+    :root{--sage:#718675;--deep:#435b49;--pale:#e9efe8;--cream:#faf8f1;--paper:#fffefa;--ink:#344238;--muted:#778078;--rose:#bd898b;--line:#e8e5dc;--gold:#b69a62;--shadow:0 12px 34px #3442380d}
+    *{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,"Times New Roman",serif}
+    button,input,textarea{font:inherit} button{cursor:pointer} .shell{max-width:920px;margin:auto;padding:22px 18px 60px}
+    .mast{text-align:center;padding:14px 0 24px}.sprig{color:var(--sage);font-size:24px;letter-spacing:9px}.brand{font-size:clamp(38px,8vw,54px);font-weight:400;letter-spacing:.5px;color:var(--deep);margin:4px 0}.tag{font-style:italic;color:var(--muted);font-size:14px}
+    .topline{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 auto 16px;max-width:760px}.date{font:12px Arial,sans-serif;color:var(--muted);letter-spacing:.5px}.install{border:1px solid #cbd6cb;background:var(--paper);color:var(--deep);border-radius:30px;padding:9px 13px;font:12px Arial,sans-serif}
+    nav{display:flex;gap:7px;max-width:760px;margin:0 auto 20px;padding:5px;background:#f0efe7;border-radius:16px}nav button{flex:1;border:0;background:transparent;color:var(--muted);padding:12px 5px;border-radius:12px;font:13px Arial,sans-serif}nav button.active{background:var(--paper);color:var(--deep);box-shadow:0 2px 8px #3442380d}
+    main{max-width:760px;margin:auto}.view{display:none}.view.active{display:block}.card{background:var(--paper);border:1px solid var(--line);border-radius:22px;padding:22px;margin-bottom:15px;box-shadow:var(--shadow)}.eyebrow{font:10px Arial,sans-serif;text-transform:uppercase;letter-spacing:2px;color:var(--sage);margin-bottom:9px}h2{font-weight:400;font-size:26px;color:var(--deep);margin:0 0 9px}h3{font-weight:400;font-size:19px;color:var(--deep);margin:20px 0 7px}p{line-height:1.65;margin:8px 0}.muted{font-size:13px;color:var(--muted)}.hero{background:linear-gradient(135deg,#e7eee6,#f4f1e7);border:1px solid #dce5da}.hero h2{font-size:29px}.hero .verse{font-style:italic;color:var(--deep);font-size:16px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:14px}.pill{display:inline-block;background:var(--pale);color:var(--deep);border-radius:30px;padding:6px 10px;font:11px Arial,sans-serif}.button{border:0;border-radius:30px;padding:12px 18px;background:var(--sage);color:white;font:13px Arial,sans-serif}.button.secondary{background:var(--pale);color:var(--deep)}.button.outline{background:transparent;color:var(--deep);border:1px solid #cbd6cb}.button:focus-visible,nav button:focus-visible{outline:3px solid #bd898b;outline-offset:2px}
+    .duration{display:flex;flex-wrap:wrap;gap:8px;margin:15px 0}.duration button{border:1px solid #d3ddd2;background:white;color:var(--deep);border-radius:30px;padding:9px 14px;font:12px Arial,sans-serif}.duration button.selected{background:var(--sage);color:white;border-color:var(--sage)}
+    .timer{text-align:center;font:clamp(42px,9vw,56px) Arial,sans-serif;letter-spacing:2px;color:var(--deep);padding:8px 0 2px;font-variant-numeric:tabular-nums}.timer-actions{display:flex;justify-content:center;gap:9px;margin:8px 0}.progress{height:7px;background:#edf0e9;border-radius:9px;overflow:hidden;margin:12px 0}.progress span{display:block;height:100%;width:0;background:var(--sage);transition:width .25s}
+    .plan{display:grid;grid-template-columns:1fr;gap:0}.step{display:grid;grid-template-columns:42px 1fr auto;gap:12px;align-items:start;padding:14px 0;border-top:1px solid var(--line)}.stepnum{width:34px;height:34px;border-radius:50%;background:var(--pale);display:grid;place-items:center;color:var(--deep);font:12px Arial,sans-serif}.step strong{font-weight:400;color:var(--deep);font-size:16px}.step small{display:block;color:var(--muted);font:12px Arial,sans-serif;margin-top:4px;line-height:1.5}.minutes{font:11px Arial,sans-serif;color:var(--sage);white-space:nowrap}
+    .phrase{background:#f0f3ed;border-left:3px solid var(--sage);border-radius:0 12px 12px 0;padding:13px 15px;margin:11px 0;line-height:1.7}.phrase em{color:var(--deep)}.translation{font:12px Arial,sans-serif;color:var(--muted)}.prompt{background:#faf5ed;border:1px solid #eee5d7;border-radius:14px;padding:15px;margin:12px 0}.prompt textarea{width:100%;min-height:90px;border:1px solid var(--line);border-radius:10px;padding:12px;background:white;color:var(--ink);resize:vertical}.lesson-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:14px}
+    .course-item{display:flex;gap:13px;align-items:flex-start;padding:14px 0;border-top:1px solid var(--line)}.course-item:first-of-type{border-top:0}.week{flex:0 0 36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--pale);color:var(--deep);font:12px Arial,sans-serif}.course-item strong{font-weight:400;color:var(--deep)}.course-item small{display:block;color:var(--muted);font:12px Arial,sans-serif;line-height:1.5;margin-top:4px}
+    .field{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px 0;border-top:1px solid var(--line)}.field:first-of-type{border-top:0}.field input[type=time]{border:1px solid #d3ddd2;border-radius:10px;padding:9px;background:white;color:var(--ink)}input[type=checkbox]{width:19px;height:19px;accent-color:var(--sage)}.status{font:12px Arial,sans-serif;color:var(--deep);min-height:18px;margin-top:10px}.note{font:12px Arial,sans-serif;color:var(--muted);background:#f7f5ee;padding:12px;border-radius:12px;line-height:1.6}
+    .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.stat{background:#f5f5ef;border-radius:14px;padding:13px 8px;text-align:center}.stat b{display:block;font:23px Arial,sans-serif;color:var(--deep)}.stat span{font:10px Arial,sans-serif;color:var(--muted)}
+    footer{text-align:center;color:var(--muted);font-size:12px;font-style:italic;padding:18px 0} .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--deep);color:white;padding:12px 18px;border-radius:30px;font:13px Arial,sans-serif;box-shadow:var(--shadow);display:none;max-width:90%;z-index:5}.toast.show{display:block}
+    @media(min-width:650px){.plan{grid-template-columns:1fr 1fr;column-gap:24px}.step:nth-child(2){border-top:1px solid var(--line)}}@media(max-width:480px){.shell{padding:14px 13px 45px}.card{padding:18px;border-radius:18px}nav button{font-size:11px}.topline{padding:0 2px}.stats{gap:6px}.stat b{font-size:20px}}
   </style>
 </head>
-
 <body>
-  <main class="app">
-    <header>
-      <div class="leaf">✿ ❧ ✿</div>
-      <h1>¡Hablemos!</h1>
-      <div class="subtitle">A little Spanish, a little every day.</div>
-    </header>
-
-    <nav>
-      <button class="active" data-tab="home">Mi estudio</button>
-      <button data-tab="lesson">Lección</button>
-      <button data-tab="settings">Ajustes</button>
-    </nav>
-
-    <section id="home">
-      <div class="panel">
-        <div class="eyebrow">Bienvenida · Welcome</div>
-        <h2>Your Spanish journey</h2>
-        <p>Small, consistent moments of practice can help you speak with greater confidence.</p>
-        <p class="muted">Everyday conversation · Gospel vocabulary · Natural speaking</p>
+<div class="shell">
+  <header class="mast"><div class="sprig">✿ ❧ ✿</div><h1 class="brand">¡Hablemos!</h1><div class="tag">A little Spanish, a little every day.</div></header>
+  <div class="topline"><div class="date" id="todayLabel"></div><button class="install" id="installButton" hidden>＋ Add to Home Screen</button></div>
+  <nav aria-label="Main navigation">
+    <button class="active" data-view="home">Mi estudio</button><button data-view="lesson">Lección</button><button data-view="course">Mi curso</button><button data-view="settings">Ajustes</button>
+  </nav>
+  <main>
+    <section class="view active" id="home">
+      <div class="card hero"><div class="eyebrow">Bienvenida · Welcome back</div><h2>Make room for Spanish today.</h2><p class="verse">“Poco a poco se va lejos.”</p><p class="muted">Little by little, you go far. Your goal is progress, not perfection.</p><button class="button" data-go="lesson">Begin today's lesson →</button></div>
+      <div class="card"><div class="row"><div><div class="eyebrow">Tu tiempo · Your time</div><h2>Choose your study length</h2></div><span class="pill">Flexible practice</span></div><p class="muted">Your activities reshape themselves to fit the time you have today.</p>
+        <div class="duration" id="durationChoices"><button data-min="5">5 min</button><button data-min="10">10 min</button><button data-min="15">15 min</button><button data-min="20">20 min</button><button data-min="30">30 min</button></div>
+        <div class="timer" id="timer">15:00</div><div class="progress"><span id="timerProgress"></span></div><div class="timer-actions"><button class="button" id="timerToggle">Start session</button><button class="button secondary" id="timerReset">Reset</button></div><p class="muted" style="text-align:center">A gentle timer for your focused study time.</p>
       </div>
-
-      <div class="panel">
-        <div class="eyebrow">Tu tiempo · Your time</div>
-        <h2>How long would you like to study?</h2>
-        <p class="muted">Choose the amount of time you have today. Your lesson plan will adjust.</p>
-        <div class="duration-options" id="durationOptions">
-          <button data-minutes="5">5 min</button>
-          <button data-minutes="10">10 min</button>
-          <button data-minutes="15">15 min</button>
-          <button data-minutes="20">20 min</button>
-          <button data-minutes="30">30 min</button>
-        </div>
-        <div class="timer" id="timer">15:00</div>
-        <div class="timer-buttons">
-          <button class="primary" id="startTimer">Start</button>
-          <button class="secondary" id="resetTimer">Reset</button>
-        </div>
-        <p class="muted" style="text-align:center">Your study timer</p>
-      </div>
-
-      <div class="panel">
-        <div class="eyebrow">Para hoy · For today</div>
-        <h2>Presentarte con naturalidad</h2>
-        <p>Practice introducing yourself in a way that feels relaxed, warm, and natural.</p>
-        <button class="primary" onclick="showTab('lesson')">Open today's lesson →</button>
-      </div>
+      <div class="card"><div class="eyebrow">Tu progreso · Your progress</div><h2>Every little practice counts.</h2><div class="stats"><div class="stat"><b id="sessionsStat">0</b><span>SESSIONS</span></div><div class="stat"><b id="minutesStat">0</b><span>MINUTES</span></div><div class="stat"><b id="streakStat">0</b><span>DAY STREAK</span></div></div><p class="muted">Your progress is saved on this device.</p></div>
+      <div class="card"><div class="eyebrow">Your six-week path</div><h2>Un camino hacia la confianza</h2><p class="muted">A balanced path through everyday conversation and sharing the gospel.</p><div id="homeCourse"></div></div>
     </section>
-
-    <section id="lesson" class="hidden">
-      <div class="panel">
-        <div class="eyebrow">Lección 1 · Lesson 1</div>
-        <h2>Presentarte con naturalidad</h2>
-        <p>Learn to introduce yourself without translating every thought from English.</p>
-        <div class="phrase">
-          <strong>Useful expressions</strong><br>
-          <em>La verdad es que…</em> — The truth is that…<br>
-          <em>Me gustaría…</em> — I would like…<br>
-          <em>Desde hace…</em> — For / since…<br>
-          <em>Últimamente…</em> — Lately…<br>
-          <em>Me cuesta…</em> — I find it difficult to…
-        </div>
-        <h3>Your speaking challenge</h3>
-        <p>Introduce yourself in Spanish. Share something about your interests, what you have been learning, and why you want to improve your Spanish.</p>
-        <h3>Gospel connection</h3>
-        <div class="phrase">
-          <em>Estoy aprendiendo español porque quiero comunicarme mejor con los demás y compartir lo que creo.</em>
-          <br><br>
-          I am learning Spanish because I want to communicate better with others and share what I believe.
-        </div>
-        <h3>Reflection</h3>
-        <p>What felt natural? Which words did you have trouble remembering? Try saying your introduction again, a little more smoothly.</p>
-      </div>
+    <section class="view" id="lesson">
+      <div class="card"><div class="eyebrow">Lección 1 · Week 1</div><h2>Presentarte con naturalidad</h2><p>Introduce yourself warmly and naturally, without translating every thought from English.</p><div class="phrase"><em>La verdad es que…</em> <span class="translation">— The truth is that…</span><br><em>Me gustaría…</em> <span class="translation">— I would like…</span><br><em>Desde hace…</em> <span class="translation">— For / since…</span><br><em>Últimamente…</em> <span class="translation">— Lately…</span><br><em>Aunque…</em> <span class="translation">— Although…</span><br><em>Me cuesta…</em> <span class="translation">— I find it difficult to…</span><br><em>Tengo ganas de…</em> <span class="translation">— I'm looking forward to…</span></div><h3>Today's adaptable lesson</h3><p class="muted">Choose a study length on Mi estudio to see your personalized plan.</p><div class="plan" id="lessonPlan"></div></div>
+      <div class="card"><div class="eyebrow">Habla en voz alta · Speak aloud</div><h2>Your speaking challenge</h2><p>Introduce yourself. Share what you enjoy, how long you've studied Spanish, and why you want to become more confident speaking.</p><div class="prompt"><strong>Try beginning with:</strong><p><em>Hola, me llamo… La verdad es que últimamente…</em></p><textarea id="reflection" placeholder="Jot down a few thoughts or words you want to remember…"></textarea><div class="lesson-actions"><button class="button secondary" id="saveReflection">Save my notes</button><button class="button" id="completeLesson">Mark lesson complete</button></div><div class="status" id="lessonStatus" aria-live="polite"></div></div></div>
+      <div class="card"><div class="eyebrow">Conexión con el evangelio · Gospel connection</div><h2>Share what matters to you</h2><div class="phrase"><em>Estoy aprendiendo español porque quiero comunicarme mejor con los demás y compartir lo que creo.</em><br><span class="translation">I'm learning Spanish because I want to communicate better with others and share what I believe.</span></div><p>Say the sentence aloud twice. The second time, try to focus on communicating the meaning rather than remembering each individual word.</p></div>
     </section>
-
-    <section id="settings" class="hidden">
-      <div class="panel">
-        <div class="eyebrow">Tu rutina · Your routine</div>
-        <h2>Daily study reminder</h2>
-        <p class="muted">Choose a time to remind yourself to spend a little time with Spanish each day.</p>
-
-        <div class="setting-row">
-          <label for="reminderEnabled">Daily reminder</label>
-          <input type="checkbox" id="reminderEnabled">
-        </div>
-
-        <div class="setting-row">
-          <label for="reminderTime">Reminder time</label>
-          <input type="time" id="reminderTime" value="19:00">
-        </div>
-
-        <button class="primary" id="saveReminder">Save reminder</button>
-        <div class="status" id="reminderStatus" aria-live="polite"></div>
-      </div>
-
-      <div class="panel">
-        <div class="eyebrow">Preferencias · Preferences</div>
-        <h2>Your learning rhythm</h2>
-        <p>Choose a study length on the home page whenever your schedule changes. Your selected time is saved automatically.</p>
-        <p class="muted">The goal isn't perfection. It's progress, one conversation at a time.</p>
-      </div>
+    <section class="view" id="course"><div class="card"><div class="eyebrow">Tu curso · Your course</div><h2>Six weeks toward confident Spanish</h2><p class="muted">A steady mix of everyday conversation and gospel-centered language.</p><div id="courseList"></div></div></section>
+    <section class="view" id="settings">
+      <div class="card"><div class="eyebrow">Tu rutina · Your routine</div><h2>Daily study reminder</h2><p class="muted">Choose a time that works with your day. Keep this app available around that time for its in-app reminder.</p><div class="field"><label for="reminderEnabled">Reminder enabled</label><input type="checkbox" id="reminderEnabled"></div><div class="field"><label for="reminderTime">Remind me at</label><input type="time" id="reminderTime" value="19:00"></div><button class="button" id="saveReminder">Save reminder</button><div class="status" id="reminderStatus" aria-live="polite"></div><div class="note">Important: this first version checks the reminder while ¡Hablemos! is open. It cannot reliably send a scheduled alert after the browser is closed. We'll add true background push notifications in a later stage if you want them.</div></div>
+      <div class="card"><div class="eyebrow">Your preferences</div><h2>A study rhythm that fits</h2><p>Choose 5, 10, 15, 20, or 30 minutes from the home screen whenever your schedule changes. Your selection is remembered on this device.</p><p class="muted">Your notes, preferences, and progress stay in this browser. Avoid entering private or sensitive information.</p></div>
     </section>
-
-    <footer>Hecho con cariño · Made with care</footer>
   </main>
-
-  <script>
-    const $ = (id) => document.getElementById(id);
-
-    let selectedMinutes = Number(localStorage.getItem("hablemosMinutes")) || 15;
-    let remainingSeconds = selectedMinutes * 60;
-    let timerInterval = null;
-
-    function showTab(tab) {
-      ["home", "lesson", "settings"].forEach(name => {
-        $(name).classList.toggle("hidden", name !== tab);
-      });
-      document.querySelectorAll("nav button").forEach(button => {
-        button.classList.toggle("active", button.dataset.tab === tab);
-      });
-    }
-
-    document.querySelectorAll("nav button").forEach(button => {
-      button.addEventListener("click", () => showTab(button.dataset.tab));
-    });
-
-    function renderDuration() {
-      document.querySelectorAll("#durationOptions button").forEach(button => {
-        button.classList.toggle(
-          "selected",
-          Number(button.dataset.minutes) === selectedMinutes
-        );
-      });
-      renderTimer();
-    }
-
-    function renderTimer() {
-      const minutes = Math.floor(remainingSeconds / 60);
-      const seconds = remainingSeconds % 60;
-      $("timer").textContent =
-        String(minutes).padStart(2, "0") + ":" +
-        String(seconds).padStart(2, "0");
-    }
-
-    document.querySelectorAll("#durationOptions button").forEach(button => {
-      button.addEventListener("click", () => {
-        selectedMinutes = Number(button.dataset.minutes);
-        localStorage.setItem("hablemosMinutes", selectedMinutes);
-        clearInterval(timerInterval);
-        timerInterval = null;
-        $("startTimer").textContent = "Start";
-        remainingSeconds = selectedMinutes * 60;
-        renderDuration();
-      });
-    });
-
-    $("startTimer").addEventListener("click", () => {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-        $("startTimer").textContent = "Resume";
-        return;
-      }
-
-      if (remainingSeconds <= 0) remainingSeconds = selectedMinutes * 60;
-
-      $("startTimer").textContent = "Pause";
-      timerInterval = setInterval(() => {
-        remainingSeconds--;
-        renderTimer();
-
-        if (remainingSeconds <= 0) {
-          clearInterval(timerInterval);
-          timerInterval = null;
-          $("startTimer").textContent = "Start";
-          alert("¡Muy bien! You completed your study session!");
-        }
-      }, 1000);
-    });
-
-    $("resetTimer").addEventListener("click", () => {
-      clearInterval(timerInterval);
-      timerInterval = null;
-      remainingSeconds = selectedMinutes * 60;
-      $("startTimer").textContent = "Start";
-      renderTimer();
-    });
-
-    function loadReminder() {
-      const enabled = localStorage.getItem("hablemosReminderEnabled") === "true";
-      const time = localStorage.getItem("hablemosReminderTime") || "19:00";
-      $("reminderEnabled").checked = enabled;
-      $("reminderTime").value = time;
-    }
-
-    function saveReminder() {
-      const enabled = $("reminderEnabled").checked;
-      const time = $("reminderTime").value || "19:00";
-
-      localStorage.setItem("hablemosReminderEnabled", enabled);
-      localStorage.setItem("hablemosReminderTime", time);
-
-      if (enabled && "Notification" in window &&
-          Notification.permission === "default") {
-        Notification.requestPermission().then(() => {
-          updateReminderStatus();
-        });
-      } else {
-        updateReminderStatus();
-      }
-    }
-
-    function updateReminderStatus() {
-      const enabled = localStorage.getItem("hablemosReminderEnabled") === "true";
-
-      if (!enabled) {
-        $("reminderStatus").textContent = "Your daily reminder is turned off.";
-      } else if (!("Notification" in window)) {
-        $("reminderStatus").textContent =
-          "Your reminder is saved. This browser does not support notifications.";
-      } else if (Notification.permission === "granted") {
-        $("reminderStatus").textContent =
-          "Your reminder is saved! Notifications can appear while the app is open.";
-      } else if (Notification.permission === "denied") {
-        $("reminderStatus").textContent =
-          "Your reminder is saved, but notifications are blocked in browser settings.";
-      } else {
-        $("reminderStatus").textContent =
-          "Your reminder is saved. Allow notifications when your browser asks.";
-      }
-    }
-
-    $("saveReminder").addEventListener("click", saveReminder);
-
-    function checkReminder() {
-      if (localStorage.getItem("hablemosReminderEnabled") !== "true") return;
-      if (!("Notification" in window) || Notification.permission !== "granted") return;
-
-      const reminderTime = localStorage.getItem("hablemosReminderTime") || "19:00";
-      const now = new Date();
-      const today = now.toLocaleDateString("en-CA");
-      const currentTime = String(now.getHours()).padStart(2, "0") + ":" +
-                          String(now.getMinutes()).padStart(2, "0");
-
-      if (currentTime >= reminderTime &&
-          localStorage.getItem("hablemosLastReminder") !== today) {
-        new Notification("¡Hablemos!", {
-          body: "It's time for a little Spanish practice. ¡Vamos!",
-          icon: ""
-        });
-        localStorage.setItem("hablemosLastReminder", today);
-      }
-    }
-
-    renderDuration();
-    loadReminder();
-    updateReminderStatus();
-    checkReminder();
-    setInterval(checkReminder, 30000);
-  </script>
+  <footer>Hecho con cariño · Made with care</footer>
+</div><div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+(() => {
+  const $ = id => document.getElementById(id);
+  const course = [
+    ["Thinking and speaking in Spanish","Build the habit of forming simple thoughts directly in Spanish."],
+    ["Conversational confidence","Respond naturally, ask follow-up questions, and keep a conversation flowing."],
+    ["Gospel vocabulary and testimony","Practice faith, prayer, testimony, and describing beliefs."],
+    ["Teaching the gospel","Explain foundational principles with clear, connected sentences."],
+    ["Real-life missionary conversations","Practice invitations, listening, questions, and compassionate responses."],
+    ["Fluency and integration","Bring everyday Spanish and gospel conversations together."]
+  ];
+  const plans = {
+    5:[["Quick retrieval warm-up",1,"Recall yesterday's words."],["Useful expressions",1,"Say two phrases aloud."],["Grammar in context",1,"Notice a natural sentence pattern."],["Speaking challenge",2,"Give a short introduction aloud."]],
+    10:[["Retrieval warm-up",2,"Recall words without looking."],["Expressions and vocabulary",2,"Practice useful phrases."],["Grammar in context",2,"Contrast present and past."],["Speaking challenge",3,"Introduce yourself in connected sentences."],["Reflection",1,"Notice one win and one next step."]],
+    15:[["Retrieval warm-up",2,"Recall words from memory."],["Expressions and vocabulary",3,"Practice today's natural expressions."],["Grammar in context",3,"Use present, preterite, and present perfect."],["Speaking challenge",5,"Speak for a full minute without translating."],["Corrections and reflection",2,"Record one correction and one win."]],
+    20:[["Retrieval warm-up",3,"Recall and reuse older vocabulary."],["Expressions and vocabulary",4,"Build phrases into complete thoughts."],["Grammar in context",4,"Compare tenses in meaningful examples."],["Speaking challenge",6,"Give a longer introduction and ask yourself follow-up questions."],["Gospel connection",2,"Share why learning Spanish matters to you."],["Reflection",1,"Choose one phrase to review tomorrow."]],
+    30:[["Retrieval warm-up",4,"Recall older vocabulary and use it in sentences."],["Expressions and vocabulary",5,"Practice natural connectors and everyday phrases."],["Grammar in context",5,"Use multiple tenses in connected speech."],["Speaking challenge",8,"Speak for two minutes, then repeat more naturally."],["Gospel connection",5,"Explain a belief in simple, personal Spanish."],["Corrections and reflection",3,"Identify patterns and save useful corrections."]]
+  };
+  let duration = Number(localStorage.getItem("hl-duration")) || 15;
+  let remaining = duration * 60, interval = null, startedAt = null;
+  let data = JSON.parse(localStorage.getItem("hl-progress") || '{"sessions":0,"minutes":0,"streak":0,"lastDay":"","completed":[]}');
+  const today = new Date();
+  $("todayLabel").textContent = today.toLocaleDateString(undefined,{weekday:"long",month:"long",day:"numeric"});
+  function toast(message){const t=$("toast");t.textContent=message;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600)}
+  function showView(name){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("active",v.id===name));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===name));window.scrollTo({top:0,behavior:"smooth"});if(name==="lesson")renderPlan()}
+  document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.view)));
+  document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>showView(b.dataset.go)));
+  function renderCourse(){const html=course.map((c,i)=>'<div class="course-item"><div class="week">'+(i+1)+'</div><div><strong>Week '+(i+1)+': '+c[0]+'</strong><small>'+c[1]+'</small></div></div>').join("");$("courseList").innerHTML=html;$("homeCourse").innerHTML=course.slice(0,3).map((c,i)=>'<div class="course-item"><div class="week">'+(i+1)+'</div><div><strong>'+c[0]+'</strong><small>'+c[1]+'</small></div></div>').join("")}
+  function renderPlan(){$("lessonPlan").innerHTML=plans[duration].map((s,i)=>'<div class="step"><div class="stepnum">'+(i+1)+'</div><div><strong>'+s[0]+'</strong><small>'+s[2]+'</small></div><div class="minutes">'+s[1]+' min</div></div>').join("")}
+  function renderTimer(){let m=Math.floor(remaining/60),s=remaining%60;$("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0");$("timerProgress").style.width=(100-(remaining/(duration*60))*100)+"%"}
+  function renderDuration(){document.querySelectorAll("[data-min]").forEach(b=>b.classList.toggle("selected",Number(b.dataset.min)===duration));renderTimer();renderPlan()}
+  document.querySelectorAll("[data-min]").forEach(b=>b.addEventListener("click",()=>{stopTimer();duration=Number(b.dataset.min);remaining=duration*60;localStorage.setItem("hl-duration",duration);renderDuration()}));
+  function stopTimer(){if(interval){clearInterval(interval);interval=null}startedAt=null;$("timerToggle").textContent="Start session"}
+  $("timerToggle").addEventListener("click",()=>{if(interval){stopTimer();return}if(remaining<=0)remaining=duration*60;startedAt=Date.now();$("timerToggle").textContent="Pause";interval=setInterval(()=>{remaining=Math.max(0,remaining-1);renderTimer();if(remaining===0){stopTimer();recordSession(duration);toast("¡Muy bien! You finished your study session.");}},1000)});
+  $("timerReset").addEventListener("click",()=>{stopTimer();remaining=duration*60;renderTimer()});
+  function recordSession(mins){const day=new Date().toISOString().slice(0,10);if(data.lastDay!==day){data.streak=data.lastDay===new Date(Date.now()-86400000).toISOString().slice(0,10)?data.streak+1:1;data.lastDay=day}data.sessions++;data.minutes+=mins;saveProgress()}
+  function saveProgress(){localStorage.setItem("hl-progress",JSON.stringify(data));$("sessionsStat").textContent=data.sessions;$("minutesStat").textContent=data.minutes;$("streakStat").textContent=data.streak}
+  $("saveReflection").addEventListener("click",()=>{localStorage.setItem("hl-notes", $("reflection").value);$("lessonStatus").textContent="Your notes are saved on this device."});
+  $("reflection").value=localStorage.getItem("hl-notes")||"";
+  $("completeLesson").addEventListener("click",()=>{if(!data.completed.includes("lesson-1")){data.completed.push("lesson-1");recordSession(0)}$("lessonStatus").textContent="¡Excelente! Lesson 1 marked complete. Keep going!";saveProgress()});
+  function loadReminder(){$("reminderEnabled").checked=localStorage.getItem("hl-reminder-enabled")==="true";$("reminderTime").value=localStorage.getItem("hl-reminder-time")||"19:00";updateReminderStatus()}
+  function updateReminderStatus(){const on=localStorage.getItem("hl-reminder-enabled")==="true";$("reminderStatus").textContent=on?"Reminder saved for "+(localStorage.getItem("hl-reminder-time")||"19:00")+". Keep the app open around that time.":"Your daily reminder is currently off."}
+  $("saveReminder").addEventListener("click",()=>{localStorage.setItem("hl-reminder-enabled",String($("reminderEnabled").checked));localStorage.setItem("hl-reminder-time",$("reminderTime").value||"19:00");localStorage.removeItem("hl-reminder-last");updateReminderStatus();toast("Reminder settings saved.")});
+  function checkReminder(){if(localStorage.getItem("hl-reminder-enabled")!=="true")return;const time=localStorage.getItem("hl-reminder-time")||"19:00",now=new Date(),day=now.toLocaleDateString("en-CA"),clock=String(now.getHours()).padStart(2,"0")+":"+String(now.getMinutes()).padStart(2,"0");if(clock===time&&localStorage.getItem("hl-reminder-last")!==day){localStorage.setItem("hl-reminder-last",day);toast("¡Hablemos! A little Spanish practice today?");if("Notification"in window&&Notification.permission==="granted")new Notification("¡Hablemos!",{body:"A little Spanish practice today? ¡Vamos!"})}}
+  renderCourse();renderDuration();saveProgress();loadReminder();checkReminder();setInterval(checkReminder,30000);
+  let installPrompt=null;window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installPrompt=e;$("installButton").hidden=false});$("installButton").addEventListener("click",async()=>{if(!installPrompt){toast("On iPhone, use Share → Add to Home Screen in Safari.");return}installPrompt.prompt();await installPrompt.userChoice;installPrompt=null;$("installButton").hidden=true});
+  if("serviceWorker"in navigator && location.protocol.startsWith("http"))navigator.serviceWorker.register("sw.js").catch(()=>{});
+})();
+</script>
 </body>
 </html>
