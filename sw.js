@@ -1,4 +1,4 @@
-const CACHE_NAME = "hablemos-shell-v5";
+const CACHE_NAME = "hablemos-shell-v6";
 const APP_FILES = ["./", "./index.html", "./manifest.json", "./icon.svg"];
 
 self.addEventListener("install", event => {
